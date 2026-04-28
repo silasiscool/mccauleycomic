@@ -41,14 +41,13 @@ header {
 
 #main-logo {
     height: 4rem;
-    margin: 1rem;
+    margin: 2rem;
 }
 
 #header-line {
     background: black;
     height: 2px;
     width: 100%;
-    margin: 1rem;
 }
 
 #main-nav {
