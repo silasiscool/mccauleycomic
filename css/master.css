@@ -14,6 +14,7 @@
 /* Main styles */
 html {
     font-size: 12pt;
+    font-family: var(--comic-font);
 }
 
 /* Header and Nav */
@@ -46,7 +47,7 @@ header {
 
 #main-nav a {
     text-decoration: none;
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-family: var(--comic-font);
     color: black;
 }
