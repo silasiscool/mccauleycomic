@@ -17,12 +17,25 @@ html {
     font-family: var(--comic-font);
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+main {
+    width: 100%;
+    max-width: 100ch;
+}
+
 /* Header and Nav */
 header {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 #main-logo {
