@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>McCauley Image Uploader</title>
+    <script src="/eel.js" defer></script>
+    <script src="js/index.js" defer></script>
+    
 </head>
 <body>
     <h1>McCauley Image Uploader</h1>
-    <label for="file-input">File: </label><input id="file-input" type="file"><br>
+    <label for="file-input">Image File: </label><input id="file-input" type="file" accept="image/png"><br>
     <label for="date-input">Date: </label><input id="date-input" type="date"><br>
-    <label for="title-input">Title: </label><input id="title-input" type="text"><br>
+    <label for="title-input">Title (Optional): </label><input id="title-input" type="text"><br>
     <button id="submit-button">Add</button><br>
 </body>
 </html>
