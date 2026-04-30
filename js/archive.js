@@ -50,8 +50,6 @@ function updateImageIndex(n) {
     imgs[imgIndex].classList.add('show');
 }
 
-// updateImageIndex(0);
-
 // Initialize page
 setupYearSelect();
 
