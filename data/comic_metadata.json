@@ -19,9 +19,14 @@
             "date": "2026-04-17",
             "title": "4/17/2026",
             "id": "molj893f"
+        },
+        {
+            "date": "2026-04-19",
+            "title": "4/19/2026",
+            "id": "mollw9w9"
         }
     ],
     "settings": {
-        "publishTimeUTC":"10:00"
+        "publishTimeUTC": "10:00"
     }
 }
