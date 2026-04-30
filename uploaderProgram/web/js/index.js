@@ -17,7 +17,7 @@ submitButton.addEventListener('click', (e) => {
     let metadata = {};
 
     // Get date and title from inputs
-    let dateObject = new Date(dateInput.value);
+    let dateObject = new Date(dateInput.value.replace(/-/g, '\/'));
     metadata.date = dateObject.toISOString().split('T')[0];
     metadata.title = titleInput.value ? titleInput.value : dateObject.toLocaleDateString();
 

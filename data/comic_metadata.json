@@ -2,23 +2,26 @@
     "comics": [
         {
             "date": "2026-04-15",
-            "title": "4/14/2026",
+            "title": "4/15/2026",
             "id": "molgy30c"
         },
         {
             "date": "2026-04-16",
-            "title": "4/15/2026",
+            "title": "4/16/2026",
             "id": "molgycm6"
         },
         {
             "date": "2026-04-18",
-            "title": "4/17/2026",
+            "title": "4/18/2026",
             "id": "molifsso"
         },
         {
             "date": "2026-04-17",
-            "title": "4/16/2026",
+            "title": "4/17/2026",
             "id": "molj893f"
         }
-    ]
+    ],
+    "settings": {
+        "publishTimeUTC":"10:00"
+    }
 }
