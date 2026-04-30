@@ -30,7 +30,8 @@ def dataReturn(metadata, fileData):
 @eel.expose
 def uploadFiles():
     print('Uploading files')
-    addMetadata(addMetadataList)
+    # addMetadata(addMetadataList)
+    # addFiles(addFiles)
 
     print('Files Uploaded, Closing')
     eel.messageUser('Files Uploaded, Closing')
@@ -76,7 +77,9 @@ def addMetadata(addMetadataList):
 
     g.close()
 
-
+# Function to add new images to storage
+def addFiles(addFileDataList):
+    pass
 
 # Start GUI
 eel.start('index.html', size=(600, 500))
