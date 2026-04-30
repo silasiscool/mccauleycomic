@@ -1,0 +1,21 @@
+#most-recent-comic {
+    margin: 0.25rem;
+}
+
+#most-recent-comic * {
+    width:100%;
+}
+
+#recent-comics {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+#recent-comics * {
+    flex: 1;
+    width: 80%;
+    margin: 0.25rem;
+    object-fit: contain;
+}
