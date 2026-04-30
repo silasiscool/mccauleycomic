@@ -1,14 +1,25 @@
 import eel
 import os
+import io
 import json
 import base64
 from github import Github, Auth, InputGitTreeElement
+from PIL import Image
+import boto3
 
 # Git Repo Constants
 ACCESS_TOKEN = input("Github Access Token: ")
 REPO_NAME = 'silasiscool/mccauleycomic'
 FILE_PATH = 'data/comic_metadata.json' 
 BRANCH = 'main'
+
+# Setup R2
+s3 = boto3.client('s3',
+    endpoint_url='https://bc7a9fb92192e0b4751bce178fa6f622.r2.cloudflarestorage.com',
+    aws_access_key_id=input("R2 Access Key: "),
+    aws_secret_access_key=input("R2 Secret Key: "),
+    region_name="auto"
+)
 
 # Lists
 addMetadataList = []
@@ -30,10 +41,14 @@ def dataReturn(metadata, fileData):
 @eel.expose
 def uploadFiles():
     print('Uploading files')
-    # addMetadata(addMetadataList)
-    # addFiles(addFiles)
 
-    print('Files Uploaded, Closing')
+    addMetadata(addMetadataList)
+    print('Metadata Uploaded')
+
+    addFiles(addFileDataList)
+    print('Files Uploaded')
+
+    print('Upload Complete, Closing')
     eel.messageUser('Files Uploaded, Closing')
     eel.closeApp()
 
@@ -79,7 +94,33 @@ def addMetadata(addMetadataList):
 
 # Function to add new images to storage
 def addFiles(addFileDataList):
-    pass
+    for file in addFileDataList:
+        print(file)
+        id = file['id']
+        base64Str = file['base64Str']
+
+    # Get image bytes
+    if "," in base64Str:
+        header, encoded = base64Str.split(",", 1)
+    else:
+        encoded = base64Str
+    imageData = base64.b64decode(encoded)
+
+    # Open the image using Pillow and Bytes IO to make it act like a file
+    img = Image.open(io.BytesIO(imageData))
+
+    # Convert to WebP
+    webpBuffer = io.BytesIO()
+    img.save(webpBuffer, format="WEBP", quality=80)
+    webpData = webpBuffer.getvalue()
+
+    fileName = f"{id}.webp"
+    s3.put_object(
+        Bucket='comic-images',
+        Key=fileName,
+        Body=webpData,
+        ContentType='image/webp'
+    )
 
 # Start GUI
 eel.start('index.html', size=(600, 500))
