@@ -1,7 +1,6 @@
 // Get query params
 const queryString = window.location.search;
 const params = new URLSearchParams(queryString);
-console.log()
 
 // Constants
 const metadataPath = '/data/comic_metadata.json';
@@ -10,7 +9,7 @@ const R2BaseURL = 'https://pub-462b7d3f2c6946928c075e6c0fc28b67.r2.dev'
 // Function to get local metadata file
 async function getMetadata() {
     const res = await fetch(metadataPath);
-    const metadata = res.json();
+    const metadata = await res.json();
     return metadata
 }
 
