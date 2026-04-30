@@ -66,3 +66,8 @@ header {
     font-family: var(--comic-font);
     color: black;
 }
+
+/* General Styles */
+button {
+    cursor: pointer;
+}

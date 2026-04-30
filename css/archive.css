@@ -1,0 +1,23 @@
+/* General Styles */
+.select-container {
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 100%;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    
+    transition: opacity 0.5s;
+}
+
+.select-container.hidden {
+    opacity: 0;
+}
+
+.select-button {
+    background: none;
+    border: none;
+}
+
+/* Year Select Styles */
+
+/* Week Select Styles */
