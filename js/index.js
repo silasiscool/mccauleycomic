@@ -6,7 +6,7 @@ const comicElements = comicElementIDs.map(id=>document.getElementById(id));
 // Update images
 async function updateImages() {
     // Get comics
-    const comics = await dateSortedComics();
+    const comics = await getPublishedComics();
 
     // Find 3 most recent comics
     const recentComics = comics.slice(0,comicElements.length)

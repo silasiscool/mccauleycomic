@@ -29,9 +29,30 @@ async function dateSortedComics() {
     return comics
 }
 
+// Return (sorted) comics with published date past current date
+async function getPublishedComics() {
+    // Get publish time
+    const metadata = await getMetadata();
+    const publishTimeUTC = metadata.settings.publishTimeUTC;
+
+    // Get current time
+    const now = new Date();
+
+    // Get comic list
+    const comics = await dateSortedComics();
+
+    // Check each comic
+    const publishedComics = comics.filter(comic => {
+        const comicPubDate = new Date(`${comic.date}T${publishTimeUTC}Z`);
+        return comicPubDate <= now
+    })
+
+    return publishedComics
+}
+
 // Get SRC for R2 image
 function R2RetriveImage(id) {
     if (params.has('noloadimg'))
-        return '/media/placeholdercomic.png'
+        return 'media/placeholdercomic.png'
     return `${R2BaseURL}/${id}.webp`
 }
