@@ -95,32 +95,32 @@ def addMetadata(addMetadataList):
 # Function to add new images to storage
 def addFiles(addFileDataList):
     for file in addFileDataList:
-        print(file)
         id = file['id']
         base64Str = file['base64Str']
+        print(id)
 
-    # Get image bytes
-    if "," in base64Str:
-        header, encoded = base64Str.split(",", 1)
-    else:
-        encoded = base64Str
-    imageData = base64.b64decode(encoded)
+        # Get image bytes
+        if "," in base64Str:
+            header, encoded = base64Str.split(",", 1)
+        else:
+            encoded = base64Str
+        imageData = base64.b64decode(encoded)
 
-    # Open the image using Pillow and Bytes IO to make it act like a file
-    img = Image.open(io.BytesIO(imageData))
+        # Open the image using Pillow and Bytes IO to make it act like a file
+        img = Image.open(io.BytesIO(imageData))
 
-    # Convert to WebP
-    webpBuffer = io.BytesIO()
-    img.save(webpBuffer, format="WEBP", quality=80)
-    webpData = webpBuffer.getvalue()
+        # Convert to WebP
+        webpBuffer = io.BytesIO()
+        img.save(webpBuffer, format="WEBP", quality=80)
+        webpData = webpBuffer.getvalue()
 
-    fileName = f"{id}.webp"
-    s3.put_object(
-        Bucket='comic-images',
-        Key=fileName,
-        Body=webpData,
-        ContentType='image/webp'
-    )
+        fileName = f"{id}.webp"
+        s3.put_object(
+            Bucket='comic-images',
+            Key=fileName,
+            Body=webpData,
+            ContentType='image/webp'
+        )
 
 # Start GUI
 eel.start('index.html', size=(600, 500))
