@@ -6,9 +6,13 @@ import base64
 from github import Github, Auth, InputGitTreeElement
 from PIL import Image
 import boto3
+from dotenv import load_dotenv
+
+# Load vars from .env
+load_dotenv()
 
 # Git Repo Constants
-ACCESS_TOKEN = input("Github Access Token: ")
+ACCESS_TOKEN = os.getenv("GITHUB_TOKEN")
 REPO_NAME = 'silasiscool/mccauleycomic'
 FILE_PATH = 'data/comic_metadata.json' 
 BRANCH = 'main'
@@ -16,8 +20,8 @@ BRANCH = 'main'
 # Setup R2
 s3 = boto3.client('s3',
     endpoint_url='https://bc7a9fb92192e0b4751bce178fa6f622.r2.cloudflarestorage.com',
-    aws_access_key_id=input("R2 Access Key: "),
-    aws_secret_access_key=input("R2 Secret Key: "),
+    aws_access_key_id=os.getenv("R2_ACCESS_KEY"),
+    aws_secret_access_key=os.getenv("R2_SECRET_KEY"),
     region_name="auto"
 )
 
@@ -124,5 +128,3 @@ def addFiles(addFileDataList):
 
 # Start GUI
 eel.start('index.html', size=(600, 500))
-
-
