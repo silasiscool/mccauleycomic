@@ -53,12 +53,12 @@ submitButton.addEventListener('click', (e) => {
     submitButton.disabled = true;
 
     // Read file
-    reader.readAsDataURL(file)
+    reader.readAsDataURL(file);
 
     // Add filename to list in window
     let newListItem = document.createElement('li');
     newListItem.innerText = fileInput.files[0].name;
-    currentFileList.appendChild(newListItem)
+    currentFileList.appendChild(newListItem);
 })
 
 // Ask and handle if the user wishes to submit more files
@@ -67,11 +67,10 @@ function checkSubmitAgain() {
     let response = window.confirm(`File recieved. Add more files?
 
     Click OK to add another file
-    Click Cancel to upload files`)
+    Click Cancel to upload files`);
 
 
-    // If submit again, reset inputs and reenable
-    if (response) {
+    if (response) { // If submit again, reset inputs and reenable
         fileInput.value = "";
         dateInput.value = "";
         titleInput.value = "";
@@ -80,11 +79,11 @@ function checkSubmitAgain() {
         dateInput.disabled = false;
         titleInput.disabled = false;
         submitButton.disabled = false;
-    } else {
-        eel.uploadFiles()
+    } else { // If upload, run python function
+        eel.uploadFiles();
     }
 }
-eel.expose(checkSubmitAgain)
+eel.expose(checkSubmitAgain);
 
 // Function to allow python script to close window when complete
 function closeApp() {
@@ -92,3 +91,9 @@ function closeApp() {
     return "Window Clossed"
 }
 eel.expose(closeApp);
+
+// Function to allow python script to send alerts to user
+function messageUser(string) {
+    window.alert(string);
+}
+eel.expose(messageUser);

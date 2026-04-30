@@ -7,10 +7,10 @@ from github import Github, Auth, InputGitTreeElement
 # Git Repo Constants
 ACCESS_TOKEN = input("Github Access Token: ")
 REPO_NAME = 'silasiscool/mccauleycomic'
-FILE_PATH = 'comic.json' 
+FILE_PATH = 'data/comic_metadata.json' 
 BRANCH = 'main'
 
-# # Vars
+# Lists
 addMetadataList = []
 addFileDataList = []
 
@@ -29,50 +29,52 @@ def dataReturn(metadata, fileData):
 
 @eel.expose
 def uploadFiles():
-    print(addFileDataList)
-    print(addMetadataList)
+    print('Uploading files')
+    addMetadata(addMetadataList)
 
-# def pushList():
-#     # Get current list from git
+    print('Files Uploaded, Closing')
+    eel.messageUser('Files Uploaded, Closing')
+    eel.closeApp()
 
-#     # Get repo
-#     auth = Auth.Token(ACCESS_TOKEN)
-#     g = Github(auth=auth)
-#     repo = g.get_repo(REPO_NAME)
 
-#     # Get file tree
-#     ref = repo.get_git_ref(f"heads/{BRANCH}")
-#     latest_commit = repo.get_git_commit(ref.object.sha)
-#     tree = repo.get_git_tree(latest_commit.tree.sha, recursive=True)
+# Function to push new metadata to git repo
+def addMetadata(addMetadataList):
+    # Get repo
+    auth = Auth.Token(ACCESS_TOKEN)
+    g = Github(auth=auth)
+    repo = g.get_repo(REPO_NAME)
 
-#     # Get file
-#     file_sha = None
-#     for element in tree.tree:
-#         if element.path == FILE_PATH:
-#             file_sha = element.sha
-#             break
-#     if not file_sha:
-#         raise FileNotFoundError(f"The file '{FILE_PATH}' was not found in the '{BRANCH}' branch of {REPO_NAME}.")
+    # Get file tree
+    ref = repo.get_git_ref(f"heads/{BRANCH}")
+    latest_commit = repo.get_git_commit(ref.object.sha)
+    tree = repo.get_git_tree(latest_commit.tree.sha, recursive=True)
 
-#     # Get data
-#     blob = repo.get_git_blob(file_sha)
-#     data = json.loads(base64.b64decode(blob.content).decode('utf-8'))
+    # Get file
+    file_sha = None
+    for element in tree.tree:
+        if element.path == FILE_PATH:
+            file_sha = element.sha
+            break
+    if not file_sha:
+        raise FileNotFoundError(f"The file '{FILE_PATH}' was not found in the '{BRANCH}' branch of {REPO_NAME}.")
+
+    # Get data
+    blob = repo.get_git_blob(file_sha)
+    data = json.loads(base64.b64decode(blob.content).decode('utf-8'))
     
-#     data['comics'].extend(addList)
+    data['comics'].extend(addMetadataList)
 
-#     new_blob = repo.create_git_blob(json.dumps(data, indent=4), 'utf-8') 
+    new_blob = repo.create_git_blob(json.dumps(data, indent=4), 'utf-8') 
 
-#     element = [InputGitTreeElement(path=FILE_PATH, mode='100644', type='blob', sha=new_blob.sha)]
-#     new_tree = repo.create_git_tree(element, latest_commit.tree)
+    element = [InputGitTreeElement(path=FILE_PATH, mode='100644', type='blob', sha=new_blob.sha)]
+    new_tree = repo.create_git_tree(element, latest_commit.tree)
 
-#     new_commit = repo.create_git_commit("Updated comic images using uploaderProgram", new_tree, [latest_commit])
-#     ref.edit(new_commit.sha)
+    new_commit = repo.create_git_commit("Updated comic_metadata.json using uploaderProgram", new_tree, [latest_commit])
+    ref.edit(new_commit.sha)
 
-#     print('update success')
+    print('Metadata update success')
 
-#     g.close()
-
-#     eel.closeApp()
+    g.close()
 
 
 
