@@ -70,4 +70,5 @@ header {
 /* General Styles */
 button {
     cursor: pointer;
+    font-family: inherit;
 }

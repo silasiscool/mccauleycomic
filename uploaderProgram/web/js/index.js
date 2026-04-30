@@ -88,7 +88,7 @@ eel.expose(checkSubmitAgain);
 // Function to allow python script to close window when complete
 function closeApp() {
     window.close();
-    return "Window Clossed"
+    return "Window Closed"
 }
 eel.expose(closeApp);
 

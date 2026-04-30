@@ -56,3 +56,19 @@ function R2RetriveImage(id) {
         return 'media/placeholdercomic.png'
     return `${R2BaseURL}/${id}.webp`
 }
+
+// Date processing
+
+// Get Sunday date for given week
+function getSunday(date) {
+    let outDate = new Date(date);
+    outDate.setDate(outDate.getDate()-outDate.getDay());
+    return outDate
+}
+
+// Get Saturday date for given week
+function getSaturday(date) {
+    let outDate = new Date(getSunday(date));
+    outDate.setDate(outDate.getDate()+6);
+    return outDate
+}
