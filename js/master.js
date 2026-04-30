@@ -3,7 +3,7 @@ const queryString = window.location.search;
 const params = new URLSearchParams(queryString);
 
 // Constants
-const metadataPath = '/data/comic_metadata.json';
+const metadataPath = 'data/comic_metadata.json';
 const R2BaseURL = 'https://pub-462b7d3f2c6946928c075e6c0fc28b67.r2.dev'
 
 // Function to get local metadata file
