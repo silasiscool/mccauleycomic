@@ -2,8 +2,9 @@ const fileInput = document.getElementById('file-input');
 const dateInput = document.getElementById('date-input');
 const titleInput = document.getElementById('title-input');
 const submitButton = document.getElementById('submit-button');
+const currentFileList = document.getElementById('current-file-list')
 
-// Await submit
+// Handle return on submit
 submitButton.addEventListener('click', (e) => {
 
     // Check for valid file and date input, else alert & exit
@@ -12,11 +13,16 @@ submitButton.addEventListener('click', (e) => {
         return
     }
 
-    // Get date and title from inputs, using date as title if none specified
+    // Setup metadata for return
+    let metadata = {};
+
+    // Get date and title from inputs
     let dateObject = new Date(dateInput.value);
-    let date = dateObject.toISOString().split('T')[0];
-    let title = titleInput.value;
-    title = title ? title : dateObject.toLocaleDateString();
+    metadata.date = dateObject.toISOString().split('T')[0];
+    metadata.title = titleInput.value ? titleInput.value : dateObject.toLocaleDateString();
+
+    // Generate unique id using current timestamp in base 36
+    metadata.id = Date.now().toString(36);
 
     // Select file
     let file = fileInput.files[0];
@@ -28,11 +34,61 @@ submitButton.addEventListener('click', (e) => {
     // Set up file reader
     let reader = new FileReader();
     reader.onload = (e) => {
+        // Read file
         let base64Str = e.target.result;
-        eel.dataReceive(date, title, base64Str)
+
+        let fileData = {
+            "id":metadata.id,
+            "base64Str":base64Str
+        }
+
+        // Return data to main python script
+        eel.dataReturn(metadata, fileData);
     }
+
+    // Disable inputs
+    fileInput.disabled = true;
+    dateInput.disabled = true;
+    titleInput.disabled = true;
+    submitButton.disabled = true;
 
     // Read file
     reader.readAsDataURL(file)
 
+    // Add filename to list in window
+    let newListItem = document.createElement('li');
+    newListItem.innerText = fileInput.files[0].name;
+    currentFileList.appendChild(newListItem)
 })
+
+// Ask and handle if the user wishes to submit more files
+function checkSubmitAgain() {
+    // Ask user
+    let response = window.confirm(`File recieved. Add more files?
+
+    Click OK to add another file
+    Click Cancel to upload files`)
+
+
+    // If submit again, reset inputs and reenable
+    if (response) {
+        fileInput.value = "";
+        dateInput.value = "";
+        titleInput.value = "";
+
+        fileInput.disabled = false;
+        dateInput.disabled = false;
+        titleInput.disabled = false;
+        submitButton.disabled = false;
+    } else {
+        eel.uploadFiles()
+    }
+}
+eel.expose(checkSubmitAgain)
+
+// Function to allow python script to close window when complete
+function closeApp() {
+    window.close();
+    return "Window Clossed"
+}
+eel.expose(closeApp);
